@@ -1,5 +1,5 @@
-// `pluginManagement` 用于配置 Gradle 插件的仓库源。
-// Gradle 将从此代码块中定义的仓库中查找 `plugins {}` 块中声明的插件。
+// `pluginManagement` configures the repository sources for Gradle plugins.
+// Gradle will look for the plugins declared in the `plugins {}` block from the repositories defined here.
 pluginManagement {
     repositories {
         gradlePluginPortal() // Gradle 官方插件门户。
@@ -12,7 +12,7 @@ pluginManagement {
 
 // `dependencyResolutionManagement` 用于集中管理所有模块的依赖项仓库。
 dependencyResolutionManagement {
-    // 设置仓库模式为 FAIL_ON_PROJECT_REPOS，禁止在子模块的 build.gradle 文件中单独定义仓库。
+    // Set repository mode to FAIL_ON_PROJECT_REPOS to prevent submodules from defining repositories in their own build.gradle files.
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         gradlePluginPortal()
@@ -23,7 +23,7 @@ dependencyResolutionManagement {
     }
 }
 
-// 设置根项目的名称。
+// Set the root project name.
 rootProject.name = "OShin"
-// 包含 :app 模块，使其成为项目构建的一部分。
+// Include the :app module as part of the project build.
 include(":app")

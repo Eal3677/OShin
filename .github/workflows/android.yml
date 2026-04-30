@@ -1,66 +1,66 @@
 # =================================================================================
-# Android CI/CD 工作流
+# Android CI/CD workflow
 # ---------------------------------------------------------------------------------
-# 当代码被推送到 master 分支时，此工作流将自动触发。
-# 它会执行以下操作：
-# 1. 设置 Java 和 Gradle 环境。
-# 2. 使用 Gradle 构建并签名 Release 版本的 APK。
-# 3. 计算构建产物的 SHA256 哈希值并生成构建摘要。
-# 4. 将所有 APK 和元数据文件作为构建产物上传。
-# 5. 发送构建结果和 APK 文件到指定的 Telegram 频道。
+# This workflow triggers automatically when code is pushed to the master branch.
+# It performs the following actions:
+# 1. Set up the Java and Gradle environment.
+# 2. Build and sign the release APK using Gradle.
+# 3. Calculate SHA256 hashes for build artifacts and generate a build summary.
+# 4. Upload APKs and metadata as build artifacts.
+# 5. Send build results and APK files to the configured Telegram channel.
 # =================================================================================
 
 name: Android CI
 
-# 定义工作流的触发条件
+# Define workflow trigger conditions
 on:
   push:
     branches: [ "master" ]
-    # 当推送仅涉及以下文件类型时，不触发工作流，以节省资源。
+    # Do not trigger the workflow when the push only involves these file types to save resources.
     paths-ignore:
       - '**.md'
       - '**.txt'
       - '.gitignore'
       - '.github/*'
       - '.idea/**'
-      - '!.github/workflows/**' # 例外规则：确保对工作流本身的修改能触发 CI
+      - '!.github/workflows/**' # Exception rule: ensure changes to the workflow itself still trigger CI
   workflow_dispatch:
 
-# 为工作流中的所有作业设置默认权限。
+# Set default permissions for all jobs in the workflow.
 permissions:
   contents: write # 允许写入内容，例如创建 GitHub Release。
   actions: write  # 允许操作 Actions，例如取消工作流。
   packages: write # 允许写入 GitHub Packages。
 
-# 定义工作流中的作业
+# Define jobs in the workflow
 jobs:
-  build-and-release: # 作业的唯一ID
+  build-and-release: # Unique ID for the job
 
-    runs-on: ubuntu-latest # 指定作业运行在最新版的 Ubuntu 虚拟环境中。
+    runs-on: ubuntu-latest # Specify the job runs on the latest Ubuntu virtual environment.
 
     steps:
-      # 第 1 步：检出代码
+      # Step 1: checkout code
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0 # 获取所有历史提交记录，以便 `git rev-list` 可以正确计算版本号。
 
-      # 第 2 步：设置 JDK 环境
+      # Step 2: set up JDK environment
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '21'        # 指定 Java 版本为 21。
-          distribution: 'temurin'   # 使用 Eclipse Temurin 发行版。
-          cache: gradle             # 启用 Gradle 依赖项的缓存，以加快后续构建速度。
+          java-version: '21'        # Specify Java version 21.
+          distribution: 'temurin'   # Use the Eclipse Temurin distribution.
+          cache: gradle             # Enable Gradle dependency caching to speed up subsequent builds.
 
-      # 第 3 步：设置签名密钥库
+      # Step 3: set up the signing keystore
       - name: Setup Keystore
         run: cp .github/echosmart.jks keystore.jks
 
-      # 第 4 步：构建并签名应用
+      # Step 4: build and sign the app
       - name: Build with Gradle
         run: |
-          chmod +x gradlew # 授予 gradlew 脚本执行权限。
+          chmod +x gradlew # Make the gradlew script executable.
           ./gradlew assembleRelease
         env:
           KEYSTORE_PATH: "../keystore.jks"
@@ -68,7 +68,7 @@ jobs:
           KEY_ALIAS: ${{ secrets.ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
-      # 第 5 步：准备构建产物信息
+      # Step 5: prepare artifact information
       - name: Prepare Artifacts, Extract Version String, and Generate Summary
         id: artifacts
         run: |
@@ -80,29 +80,29 @@ jobs:
             fi
             echo "APK_FILE_V8A=$apk_file_v8a" >> $GITHUB_ENV
           
-            # 提取完整文件名
+            # Extract full filename
             apk_filename=$(basename "$apk_file_v8a")
             echo "Extracted filename: $apk_filename"
           
-            # 移除前缀 "OShin_arm64-v8a_"
+            # Remove the prefix "OShin_arm64-v8a_"
             version_with_suffix="${apk_filename#OShin_arm64-v8a_}"
             echo "Version with suffix: $version_with_suffix"
           
-            # 移除后缀 ".apk" 得到最终的版本字符串
+            # Remove the suffix ".apk" to obtain the final version string
             version_string="${version_with_suffix%.apk}"
             echo "Extracted version string: $version_string"
           
-            # 设置 tag_name 输出为提取的版本字符串
+            # Set the tag_name output to the extracted version string
             echo "tag_name=$version_string" >> $GITHUB_OUTPUT
           
-            # 设置 name 输出也为提取的版本字符串
+            # Set the name output to the extracted version string
             echo "release_name=$version_string" >> $GITHUB_OUTPUT
           
-            # 计算 SHA
+            # Compute SHA
             sha_v8a=$(sha256sum "$apk_file_v8a" | awk '{print $1}')
             echo "sha_v8a=$sha_v8a" >> $GITHUB_OUTPUT
           
-            # 生成摘要
+            # Generate summary
             {
               echo "### OShin Build Success :rocket:"
               echo ""
@@ -111,12 +111,12 @@ jobs:
               echo "| arm64-v8a | \`$sha_v8a\` |"
             } >> $GITHUB_STEP_SUMMARY
 
-      # 第 6 步：上传构建产物
+      # Step 6: upload build artifacts
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: OShin-Build-${{ github.sha }} # 为产物包指定一个包含提交ID的唯一名称。
-          path: app/build/outputs/apk/release/ # 上传 release 目录下的所有文件。
+          name: OShin-Build-${{ github.sha }} # Specify a unique name for the artifact package containing the commit ID.
+          path: app/build/outputs/apk/release/ # Upload all files in the release directory.
 
       - name: Create Release and Upload Asset to OShin-Builds
         uses: softprops/action-gh-release@v1
