@@ -1,6 +1,6 @@
 <div align="center">
 
-# O神 - ColorOS 辅助模块 
+# OShin - ColorOS 辅助模块 
 
 <img src="https://github.com/suqi8/OShin/blob/e9cb9e2af53b728e5e2d2d00429a90f10a3384dc/app/src/main/ic_launcher1-playstore.png?raw=true" width="160" height="160" style="display: block; margin: 0 auto;" alt="icon">
 
@@ -26,7 +26,7 @@
 
 <div align="center">
   <p>
-    <b>O神</b> (原名 OPatch) 是一个专为 ColorOS 系统深度定制的辅助模块，旨在增强和优化您的操作系统体验。
+    <b>OShin</b> (原名 OPatch) 是一个专为 ColorOS 系统深度定制的辅助模块，旨在增强和优化您的操作系统体验。
   </p>
 </div>
 
@@ -54,7 +54,7 @@
     <td width="50%" valign="top">
       <h3>📥 下载</h3>
       <ol>
-        <li><b>推荐</b>: 在 LSPosed 管理器中搜索 <b>O神</b></li>
+        <li><b>推荐</b>: 在 LSPosed 管理器中搜索 <b>OShin</b></li>
         <li><b>手动</b>: 从 <a href="https://github.com/suqi8/OShin/releases">GitHub Releases</a> 下载 APK</li>
       </ol>
     </td>

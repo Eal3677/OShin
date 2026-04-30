@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">O神，启动</string>
-    <string name="xposed_desc">你说得对，但是《O神》是由Stracha酸奶菌自主研发的一款炒鸡模块。模块被运行在一个被称作“ColorOS”以及其衍生系统的神秘小安卓系统，在这里，被你选中的手机将被授予“O神之力”。你将扮演一位名为“用户”的神秘角色，获得独特的功能，和模块一起淦飞你的手机，找回你儿时的体验——同时，逐步发掘“O神”的真相。github@suqi8</string>
+    <string name="app_name">OShin，启动</string>
+    <string name="xposed_desc">你说得对，但是《OShin》是由Stracha酸奶菌自主研发的一款炒鸡模块。模块被运行在一个被称作“ColorOS”以及其衍生系统的神秘小安卓系统，在这里，被你选中的手机将被授予“OShin之力”。你将扮演一位名为“用户”的神秘角色，获得独特的功能，和模块一起淦飞你的手机，找回你儿时的体验——同时，逐步发掘“OShin”的真相。github@suqi8</string>
     <string name="package_manager_services">安装管理大师</string>
     <string name="downgr">允许给应用两锤子来降低版本</string>
     <string name="Device_Name">你的杂鱼设备的名字</string>
@@ -57,8 +57,8 @@
     <string name="battery_temperature">你的电池有多烧🥵</string>
     <string name="cpu_temperature">你的CPU有多烧🥵</string>
     <string name="yuki_hook_api_version">神秘YukiHookAPI的神秘版本</string>
-    <string name="compiled_timestamp">杂鱼O神的编译时间戳</string>
-    <string name="compiled_time">生下O神的时间</string>
+    <string name="compiled_timestamp">杂鱼OShin的编译时间戳</string>
+    <string name="compiled_time">生下OShin的时间</string>
     <string name="official_channel">官方猫娘聚集地</string>
     <string name="contribute_translation">来当黑奴翻译(bushi)</string>
     <string name="crowdin_contribute_summary">前往名为 Github 的章鱼猫娘贡献您的语言翻译</string>
@@ -147,9 +147,9 @@
     <string name="open_source_project">开源项目</string>
     <string name="closed_source_project">闭源项目</string>
     <string name="no_license">无许可证</string>
-    <string name="thanks_open_source_projects">此致敬意，感谢以下开源项目，让 O神 得到了:/effect OShin strength 114514 255。</string>
+    <string name="thanks_open_source_projects">此致敬意，感谢以下开源项目，让 OShin 得到了:/effect OShin strength 114514 255。</string>
     <string name="coolapk">小绿书</string>
-    <string name="thanks_contributors">感谢所有在 O神 的旅程中，留下足迹的开发者和用户。</string>
+    <string name="thanks_contributors">感谢所有在 OShin 的旅程中，留下足迹的开发者和用户。</string>
     <string name="oplus_system_services">叼毛一加的系统服务</string>
     <string name="oplus_root_check">检测女娲的root</string>
     <string name="oplus_root_check_summary">去tmd的内置root检测器</string>
@@ -187,7 +187,7 @@
 - LSPosed 版本\n
 - Magisk/KernelSU版本等\n
 - 网络类型及运营商信息\n\n
-所有数据均会进行加密处理，不会关联个人身份，数据仅用于产品功能优化，不会共享给第三方，但是《O神》是由Stracha酸奶菌自主研发的一款炒鸡模块。模块被运行在一个被称作“ColorOS”以及其衍生系统的神秘小安卓系统，在这里，被你选中的手机将被授予“O神之力”。你将扮演一位名为“用户”的神秘角色，获得独特的功能，和模块一起淦飞你的手机，找回你儿时的体验——同时，逐步发掘“O神”的真相
+所有数据均会进行加密处理，不会关联个人身份，数据仅用于产品功能优化，不会共享给第三方，但是《OShin》是由Stracha酸奶菌自主研发的一款炒鸡模块。模块被运行在一个被称作“ColorOS”以及其衍生系统的神秘小安卓系统，在这里，被你选中的手机将被授予“OShin之力”。你将扮演一位名为“用户”的神秘角色，获得独特的功能，和模块一起淦飞你的手机，找回你儿时的体验——同时，逐步发掘“OShin”的真相
 </string>
     <string name="split_screen_multi_window">分屏和小窗</string>
     <string name="remove_all_small_window_restrictions">所有APP都得能小窗！</string>
@@ -307,7 +307,7 @@
     <string name="usb_default_file_transfer">当 USB 被插入时🥵🥵默认使用文件传输模式</string>
     <string name="remove_usb_selection_dialog">让插入🥵🥵 USB 选择弹窗</string>
     <string name="toast_force_show_app_icon">🍞提示强制显示应用图标</string>
-    <string name="toast_icon_source_module">开启后🍞显示的应用图标将由O神尝了咸淡再放出来</string>
+    <string name="toast_icon_source_module">开启后🍞显示的应用图标将由OShin尝了咸淡再放出来</string>
     <string name="remove_system_tamper_warning">让尝试破坏系统警告飞起来</string>
     <string name="channel_name_smscode_notification">验证码通知</string>
     <string name="code_notification_content">验证码：%s</string>

@@ -1,5 +1,5 @@
 name: 🚀 移植功能
-description: 请求将其他系统或模块已有的功能移植到 O神。
+description: 请求将其他系统或模块已有的功能移植到 OShin。
 title: "[Port] <想要移植的功能名称>"
 labels: ["port", "enhancement"]
 body:
@@ -32,7 +32,7 @@ body:
   - type: textarea
     id: value-proposition
     attributes:
-      label: 为什么这个功能对 O神 用户有价值？
+      label: 为什么这个功能对 OShin 用户有价值？
       description: 请说明为什么你认为将这个功能带到 ColorOS 会很有用。
     validations:
       required: true
