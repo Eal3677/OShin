@@ -19,6 +19,7 @@ dependencyResolutionManagement {
         mavenCentral()
         google()
         maven("https://jitpack.io")
+        maven("https://repo.xposed.info") // Alternate Xposed Maven repository for the Xposed API dependency.
 
     }
 }
