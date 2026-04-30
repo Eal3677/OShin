@@ -24,6 +24,7 @@ on:
       - '.github/*'
       - '.idea/**'
       - '!.github/workflows/**' # 例外规则：确保对工作流本身的修改能触发 CI
+  workflow_dispatch:
 
 # 为工作流中的所有作业设置默认权限。
 permissions:
