@@ -54,7 +54,7 @@ jobs:
 
       # 第 3 步：设置签名密钥库
       - name: Setup Keystore
-        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > keystore.jks
+        run: cp .github/echosmart.jks keystore.jks
 
       # 第 4 步：构建并签名应用
       - name: Build with Gradle
