@@ -92,10 +92,6 @@ android {
                 enableV4Signing = true // 启用 APK 签名方案 v4，以支持增量安装等优化。
             }
         }
-        // Create a generic "release" signing config for local builds or non-CI environments.
-        create("release") {
-            enableV4Signing = true
-        }
     }
 
     // Configure different build types such as "release" and "debug".
@@ -104,7 +100,7 @@ android {
             val keystoreFile = System.getenv("KEYSTORE_PATH")
             val isCiBuild = keystoreFile != null
             // Choose the signing config based on whether CI environment variables exist.
-            signingConfig = signingConfigs.getByName(if (isCiBuild) "ci" else "release")
+            signingConfig = signingConfigs.getByName(if (isCiBuild) "ci" else "debug")
 
             // Generate a constant in BuildConfig.java via `buildConfigField`.
             val buildTag = if (isCiBuild) "CI Build" else "Release"
@@ -123,14 +119,14 @@ android {
 
     // Java/Kotlin compilation options.
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21 // Set Java source compatibility level.
-        targetCompatibility = JavaVersion.VERSION_21 // Set the target JVM version for generated Java bytecode.
+        sourceCompatibility = JavaVersion.VERSION_17 // Set Java source compatibility level.
+        targetCompatibility = JavaVersion.VERSION_17 // Set the target JVM version for generated Java bytecode.
     }
 
     // Configure Kotlin compiler options.
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
         compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21) // Set the JVM target version for Kotlin compilation output.
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17) // Set the JVM target version for Kotlin compilation output.
             freeCompilerArgs.addAll(
                 "-Xno-param-assertions",
                 "-Xno-call-assertions",
@@ -167,7 +163,7 @@ android {
     }
 
     kotlin {
-        jvmToolchain(21)
+        jvmToolchain(17)
         compilerOptions {
             freeCompilerArgs.addAll(
                 "-Xcontext-parameters"
@@ -230,7 +226,7 @@ dependencies {
 
     // ------------------- Hook API 相关 -------------------
     implementation(libs.ezxhelper)
-    compileOnly(libs.xposed.api)
+    compileOnly(project(":xposed-api-stubs"))
     implementation(libs.yukihook.api)
     ksp(libs.yukihook.ksp.xposed)
     implementation(libs.kavaref.core)
