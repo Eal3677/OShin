@@ -17,6 +17,9 @@ jobs:
       contents: write
       pull-requests: write
       issues: write
+      actions: write
+      discussions: write
+      deployments: write
     steps:
        - name: Checkout repository
          uses: actions/checkout@v6
@@ -27,18 +30,13 @@ jobs:
          run: |
           git config --global user.name "Eal3677"
           git config --global user.email "ralvaradon@uaemex.mx"
-       - name: Setup git auth
-         run: |
-           git config --global url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
-         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
        - name: Run OpenCode
          uses: anomalyco/opencode/github@latest
          env:
            AZURE_API_KEY: ${{ secrets.AZURE_API_KEY }}
            AZURE_RESOURCE_NAME: ${{ secrets.AZURE_RESOURCE_NAME }}
-           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+           GITHUB_TOKEN: ${{ secrets.ONT }}
          with:
           model: azure/gpt-5.3-codex
           share: true
