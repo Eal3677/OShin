@@ -38,7 +38,7 @@ fun VerifyDialog() {
     var inputText by remember { mutableStateOf("") }
 
     val onVerificationSuccess = {
-        Toast.makeText(context, "验证成功！", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Verification successful!", Toast.LENGTH_SHORT).show()
         context.prefs("settings").edit()
             .putString("verifyVersion", currentVersionPrefix).apply()
         show.value = false
@@ -47,7 +47,7 @@ fun VerifyDialog() {
     if (show.value && !BuildConfig.DEBUG) {
         SuperDialog(
             show = show,
-            summary = "为了尊重开发者的劳动成果，请输入模块下载地址进行验证。模块仅在 GitHub 发布，如在第三方赚钱网盘（如 123 网盘、迅雷等）下载，请举报发布者，谢谢。"
+            summary = "To respect the developer's work, please enter the module download link for verification. This module is only published on GitHub. If you downloaded it from paid third-party drives, please report the uploader."
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -59,7 +59,7 @@ fun VerifyDialog() {
                         when {
                             inputText.contains("github.com/suqi8/OShin", ignoreCase = true) -> onVerificationSuccess()
                             inputText.contains("github.com/Xposed-Modules-Repo/com.suqi8.oshin", ignoreCase = true) -> onVerificationSuccess()
-                            else -> Toast.makeText(context, "输入内容不正确，请重试！", Toast.LENGTH_SHORT).show()
+                            else -> Toast.makeText(context, "Invalid input. Please try again.", Toast.LENGTH_SHORT).show()
                         }
                     }
                 )
@@ -78,7 +78,7 @@ private fun TextVerificationContent(
         TextField(
             value = text,
             onValueChange = onTextChange,
-            label = "GitHub 地址",
+            label = "GitHub URL",
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(Modifier.height(8.dp))
@@ -86,7 +86,7 @@ private fun TextVerificationContent(
             modifier = Modifier.fillMaxWidth(),
             onClick = onVerify,
             colors = ButtonDefaults.textButtonColorsPrimary(),
-            text = "验证"
+            text = "Verify"
         )
     }
 }

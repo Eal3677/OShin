@@ -62,7 +62,7 @@ class SettingsViewModel @Inject constructor(
             try {
                 val jsonString = context.contentResolver.openInputStream(uri)?.use { inputStream ->
                     BufferedReader(InputStreamReader(inputStream)).readText()
-                } ?: throw IllegalStateException("无法读取文件")
+                } ?: throw IllegalStateException("Unable to read file")
 
                 val type = object : TypeToken<Map<String, Map<String, Any>>>() {}.type
                 val allSettings: Map<String, Map<String, *>> = gson.fromJson(jsonString, type)

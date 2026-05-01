@@ -354,7 +354,7 @@ fun FeaturedCollectionsSection(items: List<CarouselContent>) {
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.ChevronRight,
-                                    contentDescription = "可点击",
+                                    contentDescription = "Clickable item",
                                     tint = MiuixTheme.colorScheme.primary,
                                     modifier = Modifier.size(16.dp)
                                 )
@@ -503,7 +503,7 @@ fun UmengNativeBannerAd(
         ) {
             Icon(
                 imageVector = Icons.Default.ChevronRight,
-                contentDescription = "广告详情",
+                contentDescription = "Ad details",
                 tint = MiuixTheme.colorScheme.primary,
                 modifier = Modifier.size(16.dp)
             )

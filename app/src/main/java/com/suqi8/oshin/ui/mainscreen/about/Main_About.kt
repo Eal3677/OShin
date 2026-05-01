@@ -704,7 +704,7 @@ private fun openStorageSettings(context: Context) {
         context.startActivity(intent)
     } catch (e: Exception) {
         e.printStackTrace()
-        Toast.makeText(context, "无法打开存储管理页面", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Unable to open storage management page", Toast.LENGTH_SHORT).show()
     }
 }
 

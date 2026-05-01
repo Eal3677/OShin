@@ -173,7 +173,7 @@ fun about_references(
                         name = "QAuxiliary",
                         username = "cinit",
                         url = "https://github.com/cinit/QAuxiliary",
-                        license = "通用许可证")
+                        license = "Generic License")
                     addline()
                     about_references_item(
                         name = "HyperCeiler",

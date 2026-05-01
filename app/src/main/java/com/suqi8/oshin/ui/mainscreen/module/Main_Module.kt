@@ -335,7 +335,7 @@ private fun SearchResultsList(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "空空如也~",
+                    text = "Nothing here yet~",
                     fontFamily = FontFamily.Monospace,
                     color = MiuixTheme.colorScheme.onSurfaceVariantActions.copy(alpha = 0.6f)
                 )
@@ -449,12 +449,13 @@ private fun AppItemList(
     }
 
     if (!isNotInstalled) {
-        if (appUiInfo != null) {
+        val info = appUiInfo
+        if (info != null) {
             // 状态 1: 已加载
             AppItemListContent(
-                appName = appUiInfo.name,
-                icon = appUiInfo.icon,
-                dominantColor = appUiInfo.dominantColor,
+                appName = info.name,
+                icon = info.icon,
+                dominantColor = info.dominantColor,
                 packageName = entry.packageName,
                 entry = entry,
                 onClick = onClick,
@@ -561,12 +562,13 @@ private fun AppItemFlow(
 
     // 4. 渲染 UI
     if (!isNotInstalled) {
-        if (appUiInfo != null) {
+        val info = appUiInfo
+        if (info != null) {
             // 状态 1: 已加载
             AppItemFlowContent(
-                appName = appUiInfo.name,
-                icon = appUiInfo.icon,
-                dominantColor = appUiInfo.dominantColor,
+                appName = info.name,
+                icon = info.icon,
+                dominantColor = info.dominantColor,
                 entry = entry,
                 onClick = onClick,
                 sharedTransitionScope = sharedTransitionScope,
