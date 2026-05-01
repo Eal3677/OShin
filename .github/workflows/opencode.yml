@@ -35,6 +35,6 @@ jobs:
            AZURE_RESOURCE_NAME: ${{ secrets.AZURE_RESOURCE_NAME }}
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          with:
-          model: azure/DeepSeek-V3-0324
+          model: azure/gpt-5.3-codex
           share: true
           use_github_token: true
