@@ -50,6 +50,12 @@
 -dontwarn java.lang.reflect.AnnotatedType
 -dontwarn com.umeng.**
 -dontwarn org.repackage.**
+-dontwarn android.app.AndroidAppHelper
+-dontwarn android.content.res.XModuleResources
+-dontwarn android.content.res.XResources
+-dontwarn de.robv.android.xposed.XC_MethodHook$Unhook
+-dontwarn de.robv.android.xposed.XC_MethodHook
+-dontwarn de.robv.android.xposed.XSharedPreferences
 -keep class com.suqi8.oshin.ui.activity.func.StatusBarLayout.** { *; }
 -keepattributes Signature, InnerClasses, EnclosingMethod
 -dontusemixedcaseclassnames

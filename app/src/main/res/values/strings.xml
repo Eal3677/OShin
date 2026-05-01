@@ -110,6 +110,7 @@
     <string name="desktop_icon_and_text_size_multiplier">Desktop Icon &amp; Text Size Multiplier</string>
     <string name="icon_size_limit_note">When larger than 1x, the icon size will be limited to 1x. This will not be fixed for now.</string>
     <string name="nvid_CN">CN China 🇨🇳</string>
+    <string name="nvid_TW">TW Taiwan, China 🇨🇳</string>
     <string name="nvid_RU">RU Russia 🇷🇺</string>
     <string name="nvid_GDPR_EU">GDPR EU 🇪🇺</string>
     <string name="nvid_GDPR_Europe">GDPR Europe 🇪🇺</string>
@@ -262,6 +263,7 @@ All data will be encrypted and will not be associated with personal identity. Th
     <string name="remove_attempt_installation_popup">Remove "Attempting to install" Popup</string>
     <string name="remove_version_check">Remove Version Check</string>
     <string name="remove_security_check">Remove Pre-install Security Check</string>
+    <string name="ignore_audio_focus">Ignore Audio Focus</string>
     <string name="switch_style">Switch Style</string>
     <string name="enable_alarm_reminder">Enable Phone Alarm Reminder</string>
     <string name="alarm_reminder_description">After enabling, you need to install Mi Clock and set an alarm, and also set Mi Fitness as a system app.</string>
@@ -488,7 +490,7 @@ Available subcommands:
     <string name="section_subtitle_highlights">Recommended useful features for you</string>
     <string name="section_title_browse">Browse by Category</string>
     <string name="section_title_featured">Announcements</string>
-    <string name="section_title_highlights">Today's Highlights</string>
+    <string name="section_title_highlights">Today\'s Highlights</string>
     <string name="section_title_system_info">System Information</string>
     <string name="set_task_corner_radius">Recent Tasks View Corner Radius</string>
     <string name="settings_category_advanced">Advanced</string>
@@ -555,4 +557,5 @@ Available subcommands:
     <string name="view_model_error_timeout">Request timeout, please check network</string>
     <string name="view_model_error_unknown">Unknown error</string>
     <string name="view_model_error_unknown_host">Unable to connect to server</string>
+    <string name="disable_resolution_change_kill">Prevent force-closing apps when changing resolution</string>
 </resources>

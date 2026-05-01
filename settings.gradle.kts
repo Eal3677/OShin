@@ -2,15 +2,15 @@
 // Gradle will look for the plugins declared in the `plugins {}` block from the repositories defined here.
 pluginManagement {
     repositories {
-        gradlePluginPortal() // Gradle 官方插件门户。
-        mavenCentral()       // Maven 中央仓库。
-        google()             // Google 的 Maven 仓库，用于存放 Android 相关库和插件。
-        maven("https://jitpack.io") // JitPack 仓库，用于轻松构建任何 GitHub/GitLab 项目。
+        gradlePluginPortal() // Official Gradle plugin portal.
+        mavenCentral()       // Maven Central repository.
+        google()             // Google Maven repository for Android libraries and plugins.
+        maven("https://jitpack.io") // JitPack repository for GitHub/GitLab artifacts.
 
     }
 }
 
-// `dependencyResolutionManagement` 用于集中管理所有模块的依赖项仓库。
+// `dependencyResolutionManagement` centrally manages repositories for all modules.
 dependencyResolutionManagement {
     // Set repository mode to FAIL_ON_PROJECT_REPOS to prevent submodules from defining repositories in their own build.gradle files.
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -19,7 +19,6 @@ dependencyResolutionManagement {
         mavenCentral()
         google()
         maven("https://jitpack.io")
-        maven("https://repo.xposed.info") // Alternate Xposed Maven repository for the Xposed API dependency.
 
     }
 }
@@ -28,3 +27,4 @@ dependencyResolutionManagement {
 rootProject.name = "OShin"
 // Include the :app module as part of the project build.
 include(":app")
+include(":xposed-api-stubs")
