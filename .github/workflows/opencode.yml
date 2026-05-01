@@ -31,6 +31,6 @@ jobs:
            AZURE_RESOURCE_NAME: ${{ secrets.AZURE_RESOURCE_NAME }}
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          with:
-          model: azure-cognitive-services/gpt-5.4-pro
+          model: azure/gpt-5.4-pro
           share: true
           use_github_token: true
