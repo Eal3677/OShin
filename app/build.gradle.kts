@@ -230,7 +230,8 @@ dependencies {
 
     // ------------------- Hook API 相关 -------------------
     implementation(libs.ezxhelper)
-    compileOnly(libs.xposed.api)
+    // Local stubs under de.robv.android.xposed keep CI builds reproducible
+    // when external Xposed Maven repositories are unavailable.
     implementation(libs.yukihook.api)
     ksp(libs.yukihook.ksp.xposed)
     implementation(libs.kavaref.core)

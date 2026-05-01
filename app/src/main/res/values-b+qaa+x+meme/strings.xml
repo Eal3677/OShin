@@ -224,7 +224,7 @@
     <string name="custom_animation_duration">自定义动画时长</string>
     <string name="feature">奇奇怪怪的东西</string>
     <string name="disable_root_dialog">让Root检测弹窗飞起来</string>
-    <string name="remove_recommendations">让\"大家也喜欢\滚出去"</string>
+    <string name="remove_recommendations">让"大家也喜欢"滚出去</string>
     <string name="network_speed_indicator">网速偷窥器</string>
     <string name="default_mode">南贝模式</string>
     <string name="upload_download">上传/下载</string>

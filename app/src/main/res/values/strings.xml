@@ -488,7 +488,7 @@ Available subcommands:
     <string name="section_subtitle_highlights">Recommended useful features for you</string>
     <string name="section_title_browse">Browse by Category</string>
     <string name="section_title_featured">Announcements</string>
-    <string name="section_title_highlights">Today's Highlights</string>
+    <string name="section_title_highlights">Today\'s Highlights</string>
     <string name="section_title_system_info">System Information</string>
     <string name="set_task_corner_radius">Recent Tasks View Corner Radius</string>
     <string name="settings_category_advanced">Advanced</string>
