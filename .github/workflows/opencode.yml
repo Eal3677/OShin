@@ -31,6 +31,6 @@ jobs:
            AZURE_RESOURCE_NAME: ${{ secrets.AZURE_RESOURCE_NAME }}
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          with:
-          model: azure/claude-opus-4-6
+          model: azure-cognitive-services/claude-opus-4-6
           share: true
           use_github_token: true
