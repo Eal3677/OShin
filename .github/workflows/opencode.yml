@@ -23,14 +23,18 @@ jobs:
          with:
            fetch-depth: 1
            persist-credentials: false
-
+       - name: git config
+         run: |
+          git config --global user.name "Eal3677"
+          git config --global user.email "ralvaradon@uaemex.mx"
+          
        - name: Run OpenCode
          uses: anomalyco/opencode/github@latest
          env:
            AZURE_API_KEY: ${{ secrets.AZURE_API_KEY }}
-           AZURE_RESOURCE_NAME: ${{ secrets.AZURE_RESOURCE_NAME }}
+           AZURE_COGNITIVE_SERVICES_RESOURCE_NAME: ${{ secrets.AZURE_COGNITIVE_SERVICES_RESOURCE_NAME }}
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          with:
-          model: azure/gpt-5.4-pro
+          model: azure-cognitive-services/DeepSeek-V3-0324
           share: true
           use_github_token: true
