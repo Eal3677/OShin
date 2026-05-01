@@ -15,18 +15,18 @@ fun requestPermissions(context: Context, permissions: IPermission, onGranted: ()
                 } else {
                     toast(
                         context,
-                        "获取部分权限成功，但部分权限未正常授予\n这可能会导致部分功能无法正常使用"
+                        "Some permissions were granted, but others were denied.\nSome features may not work properly."
                     )
                 }
             }
 
             override fun onDenied(permissions: MutableList<IPermission>, doNotAskAgain: Boolean) {
                 if (doNotAskAgain) {
-                    toast(context, "被永久拒绝授权，请手动授予读取和写入文件权限")
+                    toast(context, "Permission permanently denied. Please grant read/write file permissions manually.")
                     // 如果权限被永久拒绝，重定向到设置
                     XXPermissions.startPermissionActivity(context, permissions)
                 } else {
-                    toast(context, "获取读取和写入文件权限失败")
+                    toast(context, "Failed to obtain read/write file permissions.")
                 }
             }
         })

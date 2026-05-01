@@ -335,7 +335,7 @@ private fun RenderScreenItem(
                     value = value,
                     valueRange = item.valueRange,
                     onValueChange = { newValue -> viewModel.updateState(item.key, newValue) },
-                    unit = item.unit,
+                    unit = item.unit ?: "",
                     decimalPlaces = item.decimalPlaces,
                     position = position,
                 )

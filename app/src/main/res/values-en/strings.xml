@@ -75,7 +75,7 @@
     <string name="show_week_title">Show Day of Week</string>
     <string name="show_week_summary">e.g., Mon</string>
     <string name="show_cn_hour_title">Show Chinese Hour</string>
-    <string name="show_cn_hour_summary">e.g., 寅时 (3–5 AM)</string>
+    <string name="show_cn_hour_summary">e.g., Yin Hour (3-5 AM)</string>
     <string name="showtime_period_title">Show Time Period</string>
     <string name="showtime_period_summary">e.g., AM</string>
     <string name="show_seconds_title">Show Seconds</string>
@@ -110,6 +110,7 @@
     <string name="desktop_icon_and_text_size_multiplier">Desktop Icon &amp; Text Size Multiplier</string>
     <string name="icon_size_limit_note">When larger than 1x, the icon size will be limited to 1x. This will not be fixed for now.</string>
     <string name="nvid_CN">CN China 🇨🇳</string>
+    <string name="nvid_TW">TW Taiwan, China 🇨🇳</string>
     <string name="nvid_RU">RU Russia 🇷🇺</string>
     <string name="nvid_GDPR_EU">GDPR EU 🇪🇺</string>
     <string name="nvid_GDPR_Europe">GDPR Europe 🇪🇺</string>
@@ -251,6 +252,7 @@ All data will be encrypted and will not be associated with personal identity. Th
     <string name="help">Help</string>
     <string name="disable_72h_verify">Disable 72-hour Lock Screen Password Verification</string>
     <string name="allow_untrusted_touch">Allow Untrusted Touch Events</string>
+    <string name="ignore_audio_focus">Ignore Audio Focus</string>
     <string name="remove_app_recommendation_ads">Remove App Suggestion Ads</string>
     <string name="accessibility_service_direct">Accessibility Service Shortcut</string>
     <string name="accessibility_service_authorize">Authorize Accessibility Service Directly</string>
@@ -382,6 +384,7 @@ All data will be encrypted and will not be associated with personal identity. Th
     <string name="allow_nonsystem_shared_uid_summary">Allow non-system apps with different signatures to use `android:sharedUserId`.</string>
     <string name="remove_second_page_ads">Remove second-level page ads</string>
     <string name="prevent_system_browser_redirect">Prevent redirection to system browser</string>
+    <string name="disable_resolution_change_kill">Prevent force-closing apps when switching resolution</string>
     <string name="pms_command_title">Enable PMS debug commands</string>
     <string name="pms_command_summary">
 Use the "pm pms" command in adb shell to view app signature and shared UID signature status.\n
@@ -488,7 +491,7 @@ Available subcommands:
     <string name="section_subtitle_highlights">Recommended useful features for you</string>
     <string name="section_title_browse">Browse by Category</string>
     <string name="section_title_featured">Announcements</string>
-    <string name="section_title_highlights">Today's Highlights</string>
+    <string name="section_title_highlights">Today\'s Highlights</string>
     <string name="section_title_system_info">System Information</string>
     <string name="set_task_corner_radius">Recent Tasks View Corner Radius</string>
     <string name="settings_category_advanced">Advanced</string>

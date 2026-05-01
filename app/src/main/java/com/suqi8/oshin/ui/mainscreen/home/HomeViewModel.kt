@@ -68,7 +68,7 @@ data class HomeUiState(
     val carouselItems: List<CarouselItem>? = null,
     val moduleStatus: ModuleStatus = ModuleStatus(Status.LOADING),
     val rootStatus: RootStatus = RootStatus(Status.LOADING),
-    val fridaStatus: FridaStatus = FridaStatus(Status.ERROR, "未连接"),
+    val fridaStatus: FridaStatus = FridaStatus(Status.ERROR, "Not connected"),
     val deviceInfo: DeviceInfo? = null,
     val randomFeatures: List<HighlightFeature> = emptyList(),
     val combinedCarouselItems: List<CarouselContent> = emptyList(),
