@@ -11,7 +11,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.suqi8.oshin.ui.mainscreen.softupdate.SoftwareUpdatePage
 import com.suqi8.oshin.ui.mainscreen.about.about_contributors
 import com.suqi8.oshin.ui.mainscreen.about.about_group
 import com.suqi8.oshin.ui.mainscreen.about.about_references
@@ -100,16 +99,6 @@ fun AppNavHost() {
                     val animatedVisibilityScope = this
                     RomWorkshop(
                         navController = navController,
-                        sharedTransitionScope = sharedTransitionScope,
-                        animatedVisibilityScope = animatedVisibilityScope
-                    )
-                }
-                composable("software_update") {
-                    val sharedTransitionScope = this@SharedTransitionLayout
-                    val animatedVisibilityScope = this
-                    SoftwareUpdatePage(
-                        navController = navController,
-                        topAppBarScrollBehavior = MiuixScrollBehavior(rememberTopAppBarState()),
                         sharedTransitionScope = sharedTransitionScope,
                         animatedVisibilityScope = animatedVisibilityScope
                     )

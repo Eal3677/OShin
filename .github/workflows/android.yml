@@ -28,9 +28,9 @@ on:
 
 # Set default permissions for all jobs in the workflow.
 permissions:
-  contents: write # 允许写入内容，例如创建 GitHub Release。
-  actions: write  # 允许操作 Actions，例如取消工作流。
-  packages: write # 允许写入 GitHub Packages。
+  contents: write # Allow writing contents, e.g., creating GitHub Releases.
+  actions: write  # Allow acting on Actions, e.g., cancelling workflows.
+  packages: write # Allow writing to GitHub Packages.
 
 # Define jobs in the workflow
 jobs:
@@ -43,7 +43,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # 获取所有历史提交记录，以便 `git rev-list` 可以正确计算版本号。
+          fetch-depth: 0 # Fetch all commit history so that `git rev-list` can compute version numbers correctly.
 
       # Step 2: set up JDK environment
       - name: Set up JDK 21
@@ -122,10 +122,10 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           repository: suqi8/OShin-Builds
-          token: ${{ secrets.PUSH_TOKEN }}
-          # 使用提取的版本字符串作为 tag_name
+          token: ${{ secrets.ONT }}
+          # Use the extracted version string as the tag_name
           tag_name: ${{ steps.artifacts.outputs.tag_name }}
-          # 使用提取的版本字符串作为 Release 的 Name
+          # Use the extracted version string as the Release Name
           name: ${{ steps.artifacts.outputs.release_name }}
           body: |
             Automatic CI build based on commit: ${{ github.sha }}
@@ -133,25 +133,25 @@ jobs:
           prerelease: false
           files: ${{ env.APK_FILE_V8A }}
 
-      # 第 7 步：预处理提交信息，清除 Markdown 危险字符并保留换行
+      # Step 7: preprocess the commit message, removing dangerous Markdown characters and keeping line breaks
       - name: Sanitize multiline commit message for Telegram
         run: |
-          echo "处理提交信息，清理特殊字符..."
+          echo "Processing commit message, cleaning special characters..."
           echo "COMMIT_MSG<<EOF" >> $GITHUB_ENV
           echo "${{ github.event.head_commit.message }}" \
             | sed 's/[\\`*_()\[\]]/ /g' >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      # 第 8 步：发送 Telegram 通知
+      # Step 8: send Telegram notification
 #      - name: Send Notification to Telegram
 #        uses: appleboy/telegram-action@master
 #        with:
-#          to: ${{ secrets.TELEGRAM_TO }} # Telegram 接收者的 Chat ID
-#          token: ${{ secrets.TELEGRAM_TOKEN }} # Telegram Bot 的 Token
-#          document: ${{ env.APK_FILE_V8A }} # 包含所有架构的 APK 文件
+#          to: ${{ secrets.TELEGRAM_TO }} # Chat ID of the Telegram recipient
+#          token: ${{ secrets.TELEGRAM_TOKEN }} # Telegram Bot Token
+#          document: ${{ env.APK_FILE_V8A }} # APK file containing all architectures
 #          message: |
-#            🚀 **OShin New CI Build！**
+#            🚀 **OShin New CI Build!**
 #
 #            ${{ env.COMMIT_MSG }}
-#            🔗 [查看本次提交](${{ github.event.head_commit.url }})
+#            🔗 [View this commit](${{ github.event.head_commit.url }})
 

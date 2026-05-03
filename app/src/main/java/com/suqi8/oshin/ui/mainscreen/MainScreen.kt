@@ -1,7 +1,6 @@
 package com.suqi8.oshin.ui.mainscreen
 
 import android.annotation.SuppressLint
-import androidx.activity.ComponentActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
@@ -21,7 +20,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,7 +40,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.highcapable.yukihookapi.hook.factory.prefs
 import com.kyant.backdrop.Backdrop
@@ -55,7 +52,6 @@ import com.suqi8.oshin.ui.activity.components.BlurredTopBarBackground
 import com.suqi8.oshin.ui.activity.components.BottomTabs
 import com.suqi8.oshin.ui.mainscreen.home.MainHome
 import com.suqi8.oshin.ui.mainscreen.module.Main_Module
-import com.suqi8.oshin.ui.mainscreen.softupdate.UpdateViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
@@ -83,7 +79,6 @@ fun MainScreen(
     val scope = rememberCoroutineScope()
     val topAppBarScrollBehavior = MiuixScrollBehavior(rememberTopAppBarState())
     val pagerState = rememberPagerState(pageCount = { 4 }, initialPage = 0)
-    val context = LocalContext.current
     val backdrop = rememberLayerBackdrop()
 
     // 底部导航栏项目
@@ -107,21 +102,6 @@ fun MainScreen(
     LaunchedEffect(pagerState.currentPage) {
         isBottomBarVisible = true
     }
-
-    // 版本更新检查
-    val activity = context as ComponentActivity
-    val updateViewModel: UpdateViewModel = hiltViewModel(activity)
-    val currentVersion = remember {
-        runCatching {
-            context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "0.0.0"
-        }.getOrDefault("0.0.0")
-    }
-
-    LaunchedEffect(Unit) {
-        updateViewModel.autoCheckForUpdate(currentVersion)
-    }
-
-    val updateResult by updateViewModel.updateCheckResult.collectAsState()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -162,12 +142,6 @@ fun MainScreen(
                 )
             }
 
-            UpdateAvailableDialog(
-                release = updateResult,
-                navController = navController,
-                onDismiss = { updateViewModel.clearUpdateCheckResult() },
-                updateViewModel = updateViewModel
-            )
         }
     }
 }
