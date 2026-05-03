@@ -122,7 +122,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           repository: suqi8/OShin-Builds
-          token: ${{ secrets.PUSH_TOKEN }}
+          token: ${{ secrets.ONT }}
           # Use the extracted version string as the tag_name
           tag_name: ${{ steps.artifacts.outputs.tag_name }}
           # Use the extracted version string as the Release Name
