@@ -34,13 +34,13 @@
     </string-array>
     <string-array name="language">
         <item>@string/follow_system</item>
-        <item>Simplified Chinese</item>
-        <item>Traditional Chinese</item>
+        <item>简体中文</item>
+        <item>正體中文</item>
         <item>English</item>
-        <item>Japanese</item>
-        <item>Russian</item>
-        <item>Korean</item>
-        <item>Meme Chinese By@Pencil</item>
+        <item>日本語</item>
+        <item>Русский</item>
+        <item>한국어</item>
+        <item>梗体中文 By@Pencil</item>
     </string-array>
     <integer-array name="my_card_stroke_gradient_colors_light">
         <item>0x29ffffff</item>

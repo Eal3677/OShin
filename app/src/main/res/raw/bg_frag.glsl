@@ -4,7 +4,7 @@ uniform shader uTexBitmap;
 uniform vec2 uTexWH;
 //uniform shader uPerlinTex;
 
-// New version parameters
+// 新版参数
 uniform float uAnimTime;
 uniform vec4 uBound;
 uniform float uTranslateY;
@@ -198,7 +198,7 @@ vec4 main(vec2 fragCoord){
 
     vec4 fragColor;
 
-    // Display uBound area
+    // 显示uBound区域
     //float debugColor = 1.;
     //debugColor *= step(0., uv.x);
     //debugColor *= step(0., uv.y);
