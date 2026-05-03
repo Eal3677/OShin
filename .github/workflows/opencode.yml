@@ -71,6 +71,33 @@ jobs:
 
       - name: Install OpenCode provider dependencies
         run: npm install --no-audit --no-fund
+      - name: Create OpenCode auth.json (Azure Foundry)
+        shell: bash
+        env:
+          AZURE_FOUNDRY_API_KEY: ${{ secrets.AZURE_FOUNDRY_API_KEY }}
+        run: |
+          set -euo pipefail
+          umask 077
+
+          mkdir -p "$HOME/.local/share/opencode"
+
+          cat > "$HOME/.local/share/opencode/auth.json" <<EOF
+          {
+            "azure-cognitive-services": {
+              "type": "api",
+              "key": "${AZURE_FOUNDRY_API_KEY}"
+            }
+          }
+          EOF
+
+          # Validación sin mostrar el secreto
+          python - <<'PY'
+          import json, os
+          p = os.path.expanduser("~/.local/share/opencode/auth.json")
+          with open(p, "r", encoding="utf-8") as f:
+              json.load(f)
+          print("auth.json creado y JSON válido.")
+          PY
 
       - name: Run OpenCode for command comments
         if: >-
