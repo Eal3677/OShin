@@ -20,8 +20,16 @@ dependencyResolutionManagement {
         google()
         maven("https://jitpack.io")
         // Aliyun mirror hosts the Xposed API artifact reliably; the official `repo.xposed.info`
-        // is frequently unreachable from CI runners.
-        maven("https://maven.aliyun.com/repository/public")
+        // is frequently unreachable from CI runners. Restrict the mirror to the Xposed group
+        // only to avoid resolving unrelated artifacts from a third-party mirror (supply-chain safety).
+        exclusiveContent {
+            forRepository {
+                maven("https://maven.aliyun.com/repository/public")
+            }
+            filter {
+                includeGroup("de.robv.android.xposed")
+            }
+        }
         maven("https://repo.xposed.info") // Alternate Xposed Maven repository for the Xposed API dependency.
 
     }

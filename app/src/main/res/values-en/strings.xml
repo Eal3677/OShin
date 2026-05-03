@@ -120,7 +120,7 @@
     <string name="nvid_TH">TH Thailand 🇹🇭</string>
     <string name="nvid_PH">PH Philippines 🇵🇭</string>
     <string name="nvid_SA">SA Saudi Arabia 🇸🇦</string>
-    <string name="nvid_LATAM">LATAM Latin America 🇱🇰</string>
+    <string name="nvid_LATAM">LATAM Latin America 🇲🇽</string>
     <string name="nvid_BR">BR Brazil 🇧🇷</string>
     <string name="nvid_ME">MEA The Middle East and Africa 🇦🇪</string>
     <string name="nvid_unknown">Device country/region code (NV (carrier) identifier) = %1$s</string>
