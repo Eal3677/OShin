@@ -15,6 +15,11 @@ on:
         description: Prompt to run with OpenCode
         required: true
         type: string
+      model:
+        description: Model to run with OpenCode
+        required: false
+        default: azure/claude-opus-4-7
+        type: string
 
 concurrency:
   group: opencode-${{ github.workflow }}-${{ github.event.issue.number || github.event.pull_request.number || github.run_id }}
@@ -45,8 +50,11 @@ jobs:
 
     # Reduce duplication: define env once
     env:
-      AZURE_API_KEY: ${{ secrets.AZURE_API_KEY }}
-      AZURE_RESOURCE_NAME: ${{ secrets.AZURE_RESOURCE_NAME }}
+      AZURE_API_KEY: ${{ secrets.AZURE_FOUNDRY_API_KEY || secrets.AZURE_API_KEY }}
+      AZURE_RESOURCE_NAME: ${{ secrets.AZURE_FOUNDRY_RESOURCE_NAME || secrets.AZURE_RESOURCE_NAME }}
+      AZURE_FOUNDRY_ENDPOINT: ${{ secrets.AZURE_FOUNDRY_ENDPOINT }}
+      AZURE_FOUNDRY_DEPLOYMENT: ${{ vars.AZURE_FOUNDRY_DEPLOYMENT || 'claude-opus-4-7' }}
+      AZURE_FOUNDRY_API_VERSION: ${{ vars.AZURE_FOUNDRY_API_VERSION || '2023-06-01' }}
       GITHUB_TOKEN: ${{ github.token }}
 
     steps:
@@ -56,6 +64,14 @@ jobs:
           fetch-depth: 1
           persist-credentials: false
 
+      - name: Setup Node.js for OpenCode dependencies
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install OpenCode provider dependencies
+        run: npm install --no-audit --no-fund
+
       - name: Run OpenCode for command comments
         if: >-
           ${{
@@ -64,7 +80,7 @@ jobs:
           }}
         uses: anomalyco/opencode/github@latest
         with:
-          model: azure/gpt-5.3-codex
+          model: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.model || vars.OPENCODE_MODEL || 'azure/claude-opus-4-7' }}
           agent: build
           token: ${{ github.token }}
 
@@ -76,7 +92,7 @@ jobs:
           }}
         uses: anomalyco/opencode/github@latest
         with:
-          model: azure/gpt-5.3-codex
+          model: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.model || vars.OPENCODE_MODEL || 'azure/claude-opus-4-7' }}
           agent: build
           token: ${{ github.token }}
           prompt: >-
