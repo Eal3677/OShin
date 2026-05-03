@@ -46,6 +46,13 @@ jobs:
       contents: write
       pull-requests: write
       issues: write
+      actions: write
+      statuses: write
+      security-events: write
+      discussions: write
+      attestations: write
+      artifact-metadata: write
+      repository-projects: write
 
     env:
       # Azure Foundry API key (used for both AZURE_API_KEY and ANTHROPIC_API_KEY)
@@ -138,7 +145,7 @@ jobs:
       - name: Configure OpenCode for Azure Foundry and MCP servers
         shell: bash
         env:
-          MCP_GITHUB_TOKEN: ${{ secrets.MCP_GITHUB_TOKEN || github.token }}
+          MCP_GITHUB_TOKEN: ${{ secrets.ONT || github.token }}
         run: |
           set -euo pipefail
           umask 077
