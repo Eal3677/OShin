@@ -19,7 +19,6 @@ dependencyResolutionManagement {
         mavenCentral()
         google()
         maven("https://jitpack.io")
-        maven("https://repo.xposed.info") // Alternate Xposed Maven repository for the Xposed API dependency.
 
     }
 }
@@ -28,3 +27,4 @@ dependencyResolutionManagement {
 rootProject.name = "OShin"
 // Include the :app module as part of the project build.
 include(":app")
+include(":xposed-api-stubs")

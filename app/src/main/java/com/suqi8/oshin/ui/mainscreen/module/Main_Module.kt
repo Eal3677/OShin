@@ -449,12 +449,12 @@ private fun AppItemList(
     }
 
     if (!isNotInstalled) {
-        if (appUiInfo != null) {
-            // 状态 1: 已加载
+        val info = appUiInfo
+        if (info != null) {
             AppItemListContent(
-                appName = appUiInfo.name,
-                icon = appUiInfo.icon,
-                dominantColor = appUiInfo.dominantColor,
+                appName = info.name,
+                icon = info.icon,
+                dominantColor = info.dominantColor,
                 packageName = entry.packageName,
                 entry = entry,
                 onClick = onClick,
@@ -561,12 +561,12 @@ private fun AppItemFlow(
 
     // 4. 渲染 UI
     if (!isNotInstalled) {
-        if (appUiInfo != null) {
-            // 状态 1: 已加载
+        val info = appUiInfo
+        if (info != null) {
             AppItemFlowContent(
-                appName = appUiInfo.name,
-                icon = appUiInfo.icon,
-                dominantColor = appUiInfo.dominantColor,
+                appName = info.name,
+                icon = info.icon,
+                dominantColor = info.dominantColor,
                 entry = entry,
                 onClick = onClick,
                 sharedTransitionScope = sharedTransitionScope,
