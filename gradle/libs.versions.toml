@@ -127,7 +127,7 @@ squareup-okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref
 union = { module = "com.umeng.umsdk:union", version.ref = "union" }
 xxpermissions = { group = "com.github.getActivity", name = "XXPermissions", version.ref = "xxpermissions" }
 
-# Umeng (友盟) SDK
+# Umeng SDK
 umeng-common = { group = "com.umeng.umsdk", name = "common", version.ref = "umengCommon" }
 umeng-asms = { group = "com.umeng.umsdk", name = "asms", version.ref = "umengAsms" }
 umeng-uyumao = { group = "com.umeng.umsdk", name = "uyumao", version.ref = "umengUyumao" }
@@ -140,8 +140,8 @@ ezxhelper = { group = "com.github.kyuubiran", name = "EzXHelper", version.ref = 
 kavaref-extension = { module = "com.highcapable.kavaref:kavaref-extension", version.ref = "kavaref-extension" }
 kavaref-core = { module = "com.highcapable.kavaref:kavaref-core", version.ref = "kavaref" }
 
-# --- 插件定义 [plugins] ---
-# 在此区域定义构建脚本插件及其别名。
+# --- Plugin definitions [plugins] ---
+# Define build script plugins and their aliases here.
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

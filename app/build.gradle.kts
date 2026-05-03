@@ -89,7 +89,7 @@ android {
                 storePassword = System.getenv("KEYSTORE_PASSWORD")
                 keyAlias = System.getenv("KEY_ALIAS")
                 keyPassword = System.getenv("KEY_PASSWORD")
-                enableV4Signing = true // 启用 APK 签名方案 v4，以支持增量安装等优化。
+                enableV4Signing = true // Enable APK signing scheme v4 to support optimizations such as incremental installation.
             }
         }
         // Create a generic "release" signing config for local builds or non-CI environments.
@@ -219,7 +219,7 @@ dependencies {
     implementation(libs.multiplatform.markdown.renderer.coil3)
     implementation(libs.multiplatform.markdown.renderer.code)
 
-    // ------------------- 底层与工具库 -------------------
+    // ------------------- Core and utility libraries -------------------
     implementation(libs.luckypray.dexkit)
     implementation(libs.xxpermissions)
     implementation(libs.squareup.okhttp)
@@ -228,7 +228,7 @@ dependencies {
     implementation(libs.miuix)
     //implementation(libs.mmkv)
 
-    // ------------------- Hook API 相关 -------------------
+    // ------------------- Hook API related -------------------
     implementation(libs.ezxhelper)
     compileOnly(libs.xposed.api)
     implementation(libs.yukihook.api)
@@ -236,17 +236,17 @@ dependencies {
     implementation(libs.kavaref.core)
     implementation(libs.kavaref.extension)
 
-    // ------------------- Room 数据库 -------------------
+    // ------------------- Room database -------------------
     runtimeOnly(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
 
-    // ------------------- Umeng (友盟) SDK -------------------
+    // ------------------- Umeng SDK -------------------
     implementation(libs.umeng.common)
     implementation(libs.umeng.asms)
     implementation(libs.umeng.uyumao)
     implementation(libs.union)
 
-    // ------------------- 测试相关库 -------------------
+    // ------------------- Testing libraries -------------------
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.espresso.core)

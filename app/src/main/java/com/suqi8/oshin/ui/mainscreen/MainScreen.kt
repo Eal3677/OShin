@@ -55,7 +55,6 @@ import com.suqi8.oshin.ui.activity.components.BlurredTopBarBackground
 import com.suqi8.oshin.ui.activity.components.BottomTabs
 import com.suqi8.oshin.ui.mainscreen.home.MainHome
 import com.suqi8.oshin.ui.mainscreen.module.Main_Module
-import com.suqi8.oshin.ui.mainscreen.softupdate.UpdateViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
@@ -108,21 +107,6 @@ fun MainScreen(
         isBottomBarVisible = true
     }
 
-    // 版本更新检查
-    val activity = context as ComponentActivity
-    val updateViewModel: UpdateViewModel = hiltViewModel(activity)
-    val currentVersion = remember {
-        runCatching {
-            context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "0.0.0"
-        }.getOrDefault("0.0.0")
-    }
-
-    LaunchedEffect(Unit) {
-        updateViewModel.autoCheckForUpdate(currentVersion)
-    }
-
-    val updateResult by updateViewModel.updateCheckResult.collectAsState()
-
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -162,12 +146,6 @@ fun MainScreen(
                 )
             }
 
-            UpdateAvailableDialog(
-                release = updateResult,
-                navController = navController,
-                onDismiss = { updateViewModel.clearUpdateCheckResult() },
-                updateViewModel = updateViewModel
-            )
         }
     }
 }
