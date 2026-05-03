@@ -46,6 +46,13 @@ jobs:
       contents: write
       pull-requests: write
       issues: write
+      actions: write
+      statuses: write
+      security-events: write
+      discussions: write
+      attestations: write
+      artifact-metadata: write
+      repository-projects: write
 
     env:
       # Azure Foundry API key (used for both AZURE_API_KEY and ANTHROPIC_API_KEY)
@@ -71,6 +78,32 @@ jobs:
 
       - name: Install OpenCode provider dependencies
         run: npm install --no-audit --no-fund
+
+      - name: Install MCP servers and dependencies
+        shell: bash
+        run: |
+          set -uo pipefail
+          echo "==> Pre-installing MCP server packages globally so npx can launch them quickly"
+          # Install each one independently so a single failure does not abort the
+          # whole step. At runtime, `npx -y <pkg>` will still pull missing ones.
+          for pkg in \
+            "@modelcontextprotocol/server-sequential-thinking" \
+            "@modelcontextprotocol/server-github" \
+            "@modelcontextprotocol/server-filesystem" \
+            "@playwright/mcp"; do
+            echo "---- Installing $pkg ----"
+            npm install -g --no-audit --no-fund "$pkg" \
+              || echo "WARN: global install of $pkg failed; npx will fetch on demand"
+          done
+
+          echo "==> Installed global packages:"
+          npm list -g --depth=0 || true
+
+          echo "==> Installing Playwright browsers and OS dependencies"
+          # Required for the Playwright MCP server to drive a browser headlessly.
+          npx --yes playwright install --with-deps chromium \
+            || npx --yes playwright install chromium \
+            || echo "WARN: Playwright browser install failed; the playwright MCP server may not work."
 
       - name: Normalize model name
         id: normalize_model
@@ -109,8 +142,10 @@ jobs:
           ocx init --global
           ocx profile add native --source tweak/p-3mdf8wp2 --from https://tweakoc.com/r --global
           
-      - name: Configure OpenCode for Azure Foundry
+      - name: Configure OpenCode for Azure Foundry and MCP servers
         shell: bash
+        env:
+          MCP_GITHUB_TOKEN: ${{ secrets.ONT || github.token }}
         run: |
           set -euo pipefail
           umask 077
@@ -119,10 +154,20 @@ jobs:
             exit 1
           fi
           mkdir -p "$HOME/.config/opencode"
-          BASE_URL="https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
-          CONFIG_FILE="$HOME/.config/opencode/opencode.json"
-          printf '{"$schema":"https://opencode.ai/config.json","provider":{"anthropic":{"options":{"baseURL":"%s"}}}}' "$BASE_URL" > "$CONFIG_FILE"
-          python3 -c "import json; d=json.load(open('$CONFIG_FILE')); print('opencode.json written with baseURL=' + d['provider']['anthropic']['options']['baseURL'])"
+          export BASE_URL="https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
+          export CONFIG_FILE="$HOME/.config/opencode/opencode.json"
+          export WORKSPACE_DIR="${GITHUB_WORKSPACE:-$PWD}"
+          export MCP_GITHUB_TOKEN="${MCP_GITHUB_TOKEN:-}"
+
+          # Build the OpenCode config (provider + MCP servers) with Python so
+          # values are escaped correctly. Use a single-line Python program to
+          # avoid YAML/heredoc indentation pitfalls.
+          python3 -c "import json, os; cfg = {'\$schema': 'https://opencode.ai/config.json', 'provider': {'anthropic': {'options': {'baseURL': os.environ['BASE_URL']}}}, 'mcp': {'sequential-thinking': {'type': 'local', 'command': ['npx', '-y', '@modelcontextprotocol/server-sequential-thinking'], 'enabled': True}, 'github': {'type': 'local', 'command': ['npx', '-y', '@modelcontextprotocol/server-github'], 'environment': {'GITHUB_PERSONAL_ACCESS_TOKEN': os.environ.get('MCP_GITHUB_TOKEN', '')}, 'enabled': True}, 'filesystem': {'type': 'local', 'command': ['npx', '-y', '@modelcontextprotocol/server-filesystem', os.environ['WORKSPACE_DIR']], 'enabled': True}, 'playwright': {'type': 'local', 'command': ['npx', '-y', '@playwright/mcp@latest', '--headless', '--isolated'], 'enabled': True}}}; open(os.environ['CONFIG_FILE'], 'w').write(json.dumps(cfg, indent=2)); print('opencode.json written to', os.environ['CONFIG_FILE']); print('baseURL =', cfg['provider']['anthropic']['options']['baseURL']); print('MCP servers configured:', ', '.join(cfg['mcp'].keys()))"
+
+          # Validate the produced config is valid JSON
+          python3 -c "import json; json.load(open('$CONFIG_FILE')); print('opencode.json validated.')"
+          echo "==> Final opencode.json contents:"
+          cat "$CONFIG_FILE"
 
       - name: Run OpenCode for command comments
         if: >-
