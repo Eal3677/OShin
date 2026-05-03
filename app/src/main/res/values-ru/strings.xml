@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">OShin</string>
+    <string name="app_name">O神</string>
     <string name="xposed_desc">Вспомогательный системный модуль, поддерживает ColorOS, RealmeUI, OxygenOS. Бесплатное ПО, не репостите, не делитесь и не продавайте! github@suqi8</string>
     <string name="package_manager_services">Службы менеджера пакетов</string>
     <string name="downgr">Разрешить откат приложений</string>
@@ -147,9 +147,9 @@
     <string name="open_source_project">Проект с открытым исходным кодом</string>
     <string name="closed_source_project">Проект с закрытым исходным кодом</string>
     <string name="no_license">Без лицензии</string>
-    <string name="thanks_open_source_projects">Выражаем благодарность следующим проектам с открытым исходным кодом, которые придали силы OShin.</string>
+    <string name="thanks_open_source_projects">Выражаем благодарность следующим проектам с открытым исходным кодом, которые придали силы O神.</string>
     <string name="coolapk">Coolapk</string>
-    <string name="thanks_contributors">Спасибо всем разработчикам и пользователям, оставившим свой след в истории OShin.</string>
+    <string name="thanks_contributors">Спасибо всем разработчикам и пользователям, оставившим свой след в истории O神.</string>
     <string name="oplus_system_services">Системные службы OnePlus</string>
     <string name="oplus_root_check">Отключить проверку Root</string>
     <string name="oplus_root_check_summary">Отключить встроенный детектор root</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">OShin</string>
+    <string name="app_name">O神</string>
     <string name="xposed_desc">系統輔助模組，支援 ColorOS、RealmeUI、OxygenOS。免費軟體，請勿二次轉發、分享、販售！github@suqi8</string>
     <string name="package_manager_services">套件管理服務</string>
     <string name="downgr">允許降級安裝應用程式</string>
@@ -147,9 +147,9 @@
     <string name="open_source_project">開放原始碼專案</string>
     <string name="closed_source_project">閉源專案</string>
     <string name="no_license">無許可證</string>
-    <string name="thanks_open_source_projects">特此致意，感謝以下開放原始碼專案，為 OShin 注入了力量。</string>
+    <string name="thanks_open_source_projects">特此致意，感謝以下開放原始碼專案，為 O神 注入了力量。</string>
     <string name="coolapk">酷安</string>
-    <string name="thanks_contributors">感謝所有在 OShin 的旅程中，留下足跡的開發者和用戶。</string>
+    <string name="thanks_contributors">感謝所有在 O神 的旅程中，留下足跡的開發者和用戶。</string>
     <string name="oplus_system_services">一加系統服務</string>
     <string name="oplus_root_check">關閉 Root 偵測</string>
     <string name="oplus_root_check_summary">關閉內建的 Root 偵測器</string>

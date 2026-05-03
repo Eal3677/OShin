@@ -16,7 +16,7 @@ body:
       options:
         - label: 我确认，此问题在最新的 CI 构建版本中同样存在。 (你可以在 [这里](https://t.me/OPatchC) 获取最新版本)
           required: true
-        - label: 我确认，我已经排查过其他所有已安装的 (LSPosed/Magisk) 模块，并确定此问题是由 OShin 模块本身引起的。
+        - label: 我确认，我已经排查过其他所有已安装的 (LSPosed/Magisk) 模块，并确定此问题是由 O神 模块本身引起的。
           required: true
         - label: 我确认，我已经在 Issue Tracker 中进行过搜索，没有发现与此问题重复的 Issue。
           required: true
@@ -25,7 +25,7 @@ body:
     id: oshin-version
     attributes:
       label: OShin 模块版本
-      description: 你正在使用哪个版本的 OShin 模块？
+      description: 你正在使用哪个版本的 O神 模块？
       placeholder: "例如：v15.0.123"
     validations:
       required: true
