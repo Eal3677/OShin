@@ -18,7 +18,7 @@ on:
       model:
         description: Model to run with OpenCode
         required: false
-        default: azure/claude-opus-4-7
+        default: azure/claude-opus-4-6
         type: string
 
 concurrency:
@@ -53,7 +53,7 @@ jobs:
       AZURE_API_KEY: ${{ secrets.AZURE_FOUNDRY_API_KEY || secrets.AZURE_API_KEY }}
       AZURE_RESOURCE_NAME: ${{ secrets.AZURE_FOUNDRY_RESOURCE_NAME || secrets.AZURE_RESOURCE_NAME }}
       AZURE_FOUNDRY_ENDPOINT: ${{ secrets.AZURE_FOUNDRY_ENDPOINT }}
-      AZURE_FOUNDRY_DEPLOYMENT: ${{ vars.AZURE_FOUNDRY_DEPLOYMENT || 'claude-opus-4-7' }}
+      AZURE_FOUNDRY_DEPLOYMENT: ${{ vars.AZURE_FOUNDRY_DEPLOYMENT || 'claude-opus-4-6' }}
       AZURE_FOUNDRY_API_VERSION: ${{ vars.AZURE_FOUNDRY_API_VERSION || '2023-06-01' }}
       GITHUB_TOKEN: ${{ github.token }}
 
@@ -107,9 +107,8 @@ jobs:
           }}
         uses: anomalyco/opencode/github@latest
         with:
-          model: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.model || vars.OPENCODE_MODEL || 'azure/claude-opus-4-7' }}
+          model: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.model || vars.OPENCODE_MODEL || 'azure/claude-opus-4-6' }}
           agent: build
-          token: ${{ github.token }}
 
       - name: Run OpenCode for workflow events
         if: >-
@@ -119,9 +118,8 @@ jobs:
           }}
         uses: anomalyco/opencode/github@latest
         with:
-          model: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.model || vars.OPENCODE_MODEL || 'azure/claude-opus-4-7' }}
+          model: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.model || vars.OPENCODE_MODEL || 'azure/claude-opus-4-6' }}
           agent: build
-          token: ${{ github.token }}
           prompt: >-
             ${{
               github.event_name == 'workflow_dispatch' && github.event.inputs.prompt ||
