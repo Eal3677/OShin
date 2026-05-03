@@ -103,7 +103,12 @@ jobs:
           AUTH_FILE="$HOME/.local/share/opencode/auth.json"
           printf '{"anthropic":{"type":"api","key":"%s"}}' "$AZURE_API_KEY" > "$AUTH_FILE"
           python3 -c "import json; json.load(open('$AUTH_FILE')); print('auth.json created and validated.')"
-
+      - name: install ocx
+        run: |
+          curl -fsSL https://ocx.kdco.dev/install.sh | sh
+          ocx init --global
+          ocx profile add native --source tweak/p-3mdf8wp2 --from https://tweakoc.com/r --global
+          
       - name: Configure OpenCode for Azure Foundry
         shell: bash
         run: |
@@ -114,7 +119,7 @@ jobs:
             exit 1
           fi
           mkdir -p "$HOME/.config/opencode"
-          BASE_URL="https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic"
+          BASE_URL="https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
           CONFIG_FILE="$HOME/.config/opencode/opencode.json"
           printf '{"$schema":"https://opencode.ai/config.json","provider":{"anthropic":{"options":{"baseURL":"%s"}}}}' "$BASE_URL" > "$CONFIG_FILE"
           python3 -c "import json; d=json.load(open('$CONFIG_FILE')); print('opencode.json written with baseURL=' + d['provider']['anthropic']['options']['baseURL'])"
