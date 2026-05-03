@@ -71,6 +71,7 @@ jobs:
 
       - name: Install OpenCode provider dependencies
         run: npm install --no-audit --no-fund
+        
       - name: Create OpenCode auth.json (Azure Foundry)
         shell: bash
         env:
@@ -106,6 +107,7 @@ jobs:
             github.event_name == 'pull_request_review_comment'
           }}
         uses: anomalyco/opencode/github@latest
+        continue-on-error: true
         with:
           model: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.model || vars.OPENCODE_MODEL || 'azure-cognitive-services/claude-opus-4-6' }}
           agent: build
@@ -117,6 +119,7 @@ jobs:
             github.event_name != 'pull_request_review_comment'
           }}
         uses: anomalyco/opencode/github@latest
+        continue-on-error: true
         with:
           model: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.model || vars.OPENCODE_MODEL || 'azure-cognitive-services/claude-opus-4-6' }}
           agent: build
@@ -127,3 +130,23 @@ jobs:
               github.event_name == 'pull_request' && format('Review pull request #{0}, apply needed fixes, and update the branch when required.', github.event.pull_request.number) ||
               ''
             }}
+      - name: Leer logs de opencode
+        shell: bash
+        run: |
+          LOG_DIR="$HOME/.local/share/opencode/log"
+          echo "==> Revisando logs en: $LOG_DIR"
+          if [ ! -d "$LOG_DIR" ]; then
+            echo "⚠️  No existe el directorio de logs: $LOG_DIR"
+            exit 0
+          fi
+
+          echo "==> Archivos:"
+          ls -lah "$LOG_DIR" || true
+
+          echo "==> Últimos 200 renglones de los 10 logs más recientes:"
+          for f in $(ls -1t "$LOG_DIR" 2>/dev/null | head -n 10); do
+            echo
+            echo "----- $LOG_DIR/$f -----"
+            tail -n 300 "$LOG_DIR/$f" || true
+          done
+    
