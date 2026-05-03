@@ -148,10 +148,11 @@ jobs:
           RAW_COMMIT_MSG: ${{ github.event.head_commit.message }}
         run: |
           echo "处理提交信息，清理特殊字符..."
+          delimiter="OSHIN_EOF_${GITHUB_RUN_ID}_${GITHUB_RUN_ATTEMPT}"
           {
-            echo "COMMIT_MSG<<OSHIN_EOF"
+            echo "COMMIT_MSG<<$delimiter"
             printf '%s\n' "$RAW_COMMIT_MSG" | sed 's/[\\`*_()\[\]]/ /g'
-            echo "OSHIN_EOF"
+            echo "$delimiter"
           } >> "$GITHUB_ENV"
 
       # 第 8 步：发送 Telegram 通知
