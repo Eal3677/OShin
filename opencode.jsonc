@@ -1,22 +1,31 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "default_agent": "build",
-  "default_model": "azure/claude-opus-4-7",
-  "provider": {
-    "azure": {
-      "models": {
-        "claude-opus-4-7": {
-          "name": "Claude Opus 4.7 (Azure Foundry)"
-        }
-      }
+  "agent": {
+    "build": {
+      "model": "azure-cognitive-services/claude-opus-4-6",
+      "temperature": 0.3,
+      "reasoningEffort": "medium"
     },
-    "azure-cognitive-services": {
-      "models": {
-        "claude-opus-4-7": {
-          "name": "Claude Opus 4.7 (Azure Foundry)"
-        }
-      }
+    "plan": {
+      "model": "azure-cognitive-services/claude-opus-4-6",
+      "temperature": 0.1,
+      "reasoningEffort": "high"
+    },
+    "general": {
+      "model": "azure-cognitive-services/claude-opus-4-6",
+      "temperature": 0.3,
+      "reasoningEffort": "medium"
+    },
+    "explore": {
+      "model": "azure-cognitive-services/claude-opus-4-6",
+      "temperature": 0.2,
+      "reasoningEffort": "low"
     }
+  },
+  "experimental": {
+    "continue_loop_on_deny": false,
+    "mcp_timeout": 10000,
+    "openTelemetry": false
   },
   "mcp": {
     "github": {
