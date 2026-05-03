@@ -38,6 +38,11 @@ jobs:
 
     runs-on: ubuntu-latest # Specify the job runs on the latest Ubuntu virtual environment.
 
+    # Expose secret presence as a job-level env so it can be referenced inside `if:`
+    # expressions (secrets cannot be used directly in step-level conditionals).
+    env:
+      HAS_PUSH_TOKEN: ${{ secrets.PUSH_TOKEN != '' }}
+
     steps:
       # Step 1: checkout code
       - name: Checkout repository
@@ -119,7 +124,11 @@ jobs:
           path: app/build/outputs/apk/release/ # Upload all files in the release directory.
 
       - name: Create Release and Upload Asset to OShin-Builds
-        uses: softprops/action-gh-release@v1
+        # Only attempt to publish to the external builds repo when the PUSH_TOKEN
+        # secret is available. On forks (or when the secret is not configured)
+        # we skip this step so the workflow still produces an APK artifact.
+        if: ${{ env.HAS_PUSH_TOKEN == 'true' }}
+        uses: softprops/action-gh-release@v2
         with:
           repository: suqi8/OShin-Builds
           token: ${{ secrets.PUSH_TOKEN }}
@@ -135,12 +144,16 @@ jobs:
 
       # 第 7 步：预处理提交信息，清除 Markdown 危险字符并保留换行
       - name: Sanitize multiline commit message for Telegram
+        env:
+          RAW_COMMIT_MSG: ${{ github.event.head_commit.message }}
         run: |
           echo "处理提交信息，清理特殊字符..."
-          echo "COMMIT_MSG<<EOF" >> $GITHUB_ENV
-          echo "${{ github.event.head_commit.message }}" \
-            | sed 's/[\\`*_()\[\]]/ /g' >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          delimiter="OSHIN_EOF_${GITHUB_RUN_ID}_${GITHUB_RUN_ATTEMPT}"
+          {
+            echo "COMMIT_MSG<<$delimiter"
+            printf '%s\n' "$RAW_COMMIT_MSG" | sed 's/[\\`*_()\[\]]/ /g'
+            echo "$delimiter"
+          } >> "$GITHUB_ENV"
 
       # 第 8 步：发送 Telegram 通知
 #      - name: Send Notification to Telegram
