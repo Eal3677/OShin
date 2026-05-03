@@ -18,7 +18,7 @@ on:
       model:
         description: Model to run with OpenCode
         required: false
-        default: azure/claude-opus-4-6
+        default: azure-cognitive-services/claude-opus-4-6
         type: string
 
 concurrency:
@@ -107,7 +107,7 @@ jobs:
           }}
         uses: anomalyco/opencode/github@latest
         with:
-          model: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.model || vars.OPENCODE_MODEL || 'azure/claude-opus-4-6' }}
+          model: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.model || vars.OPENCODE_MODEL || 'azure-cognitive-services/claude-opus-4-6' }}
           agent: build
 
       - name: Run OpenCode for workflow events
@@ -118,7 +118,7 @@ jobs:
           }}
         uses: anomalyco/opencode/github@latest
         with:
-          model: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.model || vars.OPENCODE_MODEL || 'azure/claude-opus-4-6' }}
+          model: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.model || vars.OPENCODE_MODEL || 'azure-cognitive-services/claude-opus-4-6' }}
           agent: build
           prompt: >-
             ${{
