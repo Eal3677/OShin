@@ -22,27 +22,33 @@ concurrency:
 
 jobs:
   opencode:
-    if: |
-      github.event_name == 'workflow_dispatch' ||
-      github.event_name == 'issues' ||
-      github.event_name == 'pull_request' ||
-      (
+    # Wrap the whole condition in ${{ }} and trim trailing newline with >-
+    if: >-
+      ${{
+        github.event_name == 'workflow_dispatch' ||
+        github.event_name == 'issues' ||
+        github.event_name == 'pull_request' ||
         (
-          github.event_name == 'issue_comment' ||
-          github.event_name == 'pull_request_review_comment'
-        ) &&
-        (
-          contains(github.event.comment.body, '/oc') ||
-          contains(github.event.comment.body, '/opencode')
-        ) &&
-        github.event.comment.user.type != 'Bot'
-      )
+          (github.event_name == 'issue_comment' || github.event_name == 'pull_request_review_comment') &&
+          (contains(github.event.comment.body, '/oc') || contains(github.event.comment.body, '/opencode')) &&
+          github.event.comment.user.type != 'Bot'
+        )
+      }}
+
     runs-on: ubuntu-latest
+
     permissions:
       id-token: write
       contents: write
       pull-requests: write
       issues: write
+
+    # Reduce duplication: define env once
+    env:
+      AZURE_API_KEY: ${{ secrets.AZURE_API_KEY }}
+      AZURE_RESOURCE_NAME: ${{ secrets.AZURE_RESOURCE_NAME }}
+      GITHUB_TOKEN: ${{ github.token }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -51,28 +57,32 @@ jobs:
           persist-credentials: false
 
       - name: Run OpenCode for command comments
-        if: |
-          github.event_name == 'issue_comment' ||
-          github.event_name == 'pull_request_review_comment'
+        if: >-
+          ${{
+            github.event_name == 'issue_comment' ||
+            github.event_name == 'pull_request_review_comment'
+          }}
         uses: anomalyco/opencode/github@latest
-        env:
-          AZURE_API_KEY: ${{ secrets.AZURE_API_KEY }}
-          AZURE_RESOURCE_NAME: ${{ secrets.AZURE_RESOURCE_NAME }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           model: azure/gpt-5.3-codex
           agent: build
+          token: ${{ github.token }}
 
       - name: Run OpenCode for workflow events
-        if: |
-          github.event_name != 'issue_comment' &&
-          github.event_name != 'pull_request_review_comment'
+        if: >-
+          ${{
+            github.event_name != 'issue_comment' &&
+            github.event_name != 'pull_request_review_comment'
+          }}
         uses: anomalyco/opencode/github@latest
-        env:
-          AZURE_API_KEY: ${{ secrets.AZURE_API_KEY }}
-          AZURE_RESOURCE_NAME: ${{ secrets.AZURE_RESOURCE_NAME }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           model: azure/gpt-5.3-codex
           agent: build
-          prompt: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.prompt || github.event_name == 'issues' && format('Analyze issue #{0} and implement the required repository changes.', github.event.issue.number) || github.event_name == 'pull_request' && format('Review pull request #{0}, apply needed fixes, and update the branch when required.', github.event.pull_request.number) || '' }}
+          token: ${{ github.token }}
+          prompt: >-
+            ${{
+              github.event_name == 'workflow_dispatch' && github.event.inputs.prompt ||
+              github.event_name == 'issues' && format('Analyze issue #{0} and implement the required repository changes.', github.event.issue.number) ||
+              github.event_name == 'pull_request' && format('Review pull request #{0}, apply needed fixes, and update the branch when required.', github.event.pull_request.number) ||
+              ''
+            }}
