@@ -134,7 +134,7 @@ jobs:
           fi
 
           # ✅ Foundry Claude base URL: https://<resource>.services.ai.azure.com/anthropic [3](https://learn.microsoft.com/en-us/azure/foundry/foundry-models/how-to/use-foundry-models-claude)
-          BASE_URL="https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic"
+          BASE_URL="https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
 
           mkdir -p "$HOME/.config/opencode"
           cat > "$HOME/.config/opencode/opencode.json" <<EOF
