@@ -18,8 +18,7 @@ on:
       model:
         description: Model to run with OpenCode
         required: false
-        # ✅ Cambiado a anthropic/* porque Claude en Foundry usa Messages API (Anthropic), no OpenAI endpoints
-        default: anthropic/claude-opus-4-6
+        default: anthropic/claude-opus-4-7
         type: string
 
 concurrency:
@@ -49,12 +48,12 @@ jobs:
       issues: write
 
     env:
-      # Azure Foundry (tu secreto actual)
+      # Azure Foundry API key (used for both AZURE_API_KEY and ANTHROPIC_API_KEY)
       AZURE_API_KEY: ${{ secrets.AZURE_FOUNDRY_API_KEY || secrets.AZURE_API_KEY }}
       AZURE_RESOURCE_NAME: ${{ secrets.AZURE_FOUNDRY_RESOURCE_NAME || secrets.AZURE_RESOURCE_NAME }}
       ANTHROPIC_API_KEY: ${{ secrets.AZURE_FOUNDRY_API_KEY || secrets.AZURE_API_KEY }}
-      # Modelo elegido (con fallback)
-      RAW_MODEL: ${{ github.event.inputs.model || vars.OPENCODE_MODEL || 'anthropic/claude-opus-4-6' }}
+      # Model selection with fallback chain: workflow input > repo variable > default
+      RAW_MODEL: ${{ github.event.inputs.model || vars.OPENCODE_MODEL || 'anthropic/claude-opus-4-7' }}
 
       GITHUB_TOKEN: ${{ github.token }}
 
@@ -73,15 +72,15 @@ jobs:
       - name: Install OpenCode provider dependencies
         run: npm install --no-audit --no-fund
 
-      - name: Normalize model (avoid azure-cognitive-services/claude-* crash)
+      - name: Normalize model name
         id: normalize_model
         shell: bash
         run: |
           set -euo pipefail
           raw="${RAW_MODEL}"
 
-          # ✅ Si te pasan azure-cognitive-services/claude-*, lo convertimos a anthropic/claude-*
-          # para evitar el bug de sdk.responses() y usar el endpoint correcto de Foundry.
+          # Convert azure-cognitive-services/claude-* to anthropic/claude-*
+          # to use the correct Anthropic Messages API endpoint via Foundry.
           if [[ "$raw" == azure-cognitive-services/claude-* ]]; then
             fixed="${raw/azure-cognitive-services\//anthropic/}"
           else
@@ -91,66 +90,34 @@ jobs:
           echo "model=$fixed" >> "$GITHUB_OUTPUT"
           echo "Using model: $fixed"
 
-      - name: Create OpenCode auth.json (store Foundry key as anthropic)
+      - name: Create OpenCode auth.json
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-
           if [ -z "${AZURE_API_KEY:-}" ]; then
-            echo "ERROR: AZURE_API_KEY no está configurado (secrets.AZURE_FOUNDRY_API_KEY o secrets.AZURE_API_KEY)."
+            echo "ERROR: AZURE_API_KEY is not set."
             exit 1
           fi
-
           mkdir -p "$HOME/.local/share/opencode"
+          AUTH_FILE="$HOME/.local/share/opencode/auth.json"
+          printf '{"anthropic":{"type":"api","key":"%s"}}' "$AZURE_API_KEY" > "$AUTH_FILE"
+          python3 -c "import json; json.load(open('$AUTH_FILE')); print('auth.json created and validated.')"
 
-          # ✅ OpenCode usa auth.json en ~/.local/share/opencode/auth.json [4](https://opencode.ai/docs/providers/)[5](https://opencode.ai/docs/troubleshooting/)
-          cat > "$HOME/.local/share/opencode/auth.json" <<EOF
-          {
-            "anthropic": {
-              "type": "api",
-              "key": "${AZURE_API_KEY}"
-            }
-          }
-          EOF
-
-          python - <<'PY'
-          import json, os
-          p = os.path.expanduser("~/.local/share/opencode/auth.json")
-          with open(p, "r", encoding="utf-8") as f:
-              json.load(f)
-          print("auth.json creado y JSON válido.")
-          PY
-
-      - name: Configure OpenCode to use Azure Foundry Anthropic baseURL
+      - name: Configure OpenCode for Azure Foundry
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-
           if [ -z "${AZURE_RESOURCE_NAME:-}" ]; then
-            echo "ERROR: AZURE_RESOURCE_NAME no está configurado (secrets.AZURE_FOUNDRY_RESOURCE_NAME o secrets.AZURE_RESOURCE_NAME)."
+            echo "ERROR: AZURE_RESOURCE_NAME is not set."
             exit 1
           fi
-
-          # ✅ Foundry Claude base URL: https://<resource>.services.ai.azure.com/anthropic [3](https://learn.microsoft.com/en-us/azure/foundry/foundry-models/how-to/use-foundry-models-claude)
-          BASE_URL="https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
-
           mkdir -p "$HOME/.config/opencode"
-          cat > "$HOME/.config/opencode/opencode.json" <<EOF
-          {
-            "\$schema": "https://opencode.ai/config.json",
-            "provider": {
-              "anthropic": {
-                "options": {
-                  "baseURL": "${BASE_URL}"
-                }
-              }
-            }
-          }
-          EOF
-
-          echo "opencode.json escrito con baseURL=$BASE_URL"
+          BASE_URL="https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic"
+          CONFIG_FILE="$HOME/.config/opencode/opencode.json"
+          printf '{"$schema":"https://opencode.ai/config.json","provider":{"anthropic":{"options":{"baseURL":"%s"}}}}' "$BASE_URL" > "$CONFIG_FILE"
+          python3 -c "import json; d=json.load(open('$CONFIG_FILE')); print('opencode.json written with baseURL=' + d['provider']['anthropic']['options']['baseURL'])"
 
       - name: Run OpenCode for command comments
         if: >-
@@ -183,46 +150,45 @@ jobs:
               ''
             }}
 
-      - name: Leer logs de opencode
+      - name: Read OpenCode logs
         if: ${{ always() }}
         shell: bash
         run: |
           LOG_DIR="$HOME/.local/share/opencode/log"
-          echo "==> Revisando logs en: $LOG_DIR"
+          echo "==> Checking logs in: $LOG_DIR"
 
           if [ ! -d "$LOG_DIR" ]; then
-            echo "⚠️  No existe el directorio de logs: $LOG_DIR"
+            echo "No log directory found at: $LOG_DIR"
             exit 0
           fi
 
-          echo "==> Archivos:"
+          echo "==> Files:"
           ls -lah "$LOG_DIR" || true
 
-          echo "==> Últimos 300 renglones de los 10 logs más recientes:"
+          echo "==> Last 300 lines of the 10 most recent logs:"
           for f in $(ls -1t "$LOG_DIR" 2>/dev/null | head -n 10); do
             echo
             echo "----- $LOG_DIR/$f -----"
             tail -n 300 "$LOG_DIR/$f" || true
           done
 
-      - name: Empaquetar logs de opencode
+      - name: Package OpenCode logs
         if: ${{ always() }}
         shell: bash
         run: |
           LOG_DIR="$HOME/.local/share/opencode/log"
           if [ -d "$LOG_DIR" ]; then
             tar -czf opencode-logs.tgz -C "$HOME/.local/share/opencode" log
-            echo "Logs empaquetados en opencode-logs.tgz"
+            echo "Logs packaged in opencode-logs.tgz"
           else
-            echo "No hay logs para empaquetar"
+            echo "No logs to package"
             tar -czf opencode-logs.tgz --files-from /dev/null
           fi
 
-      - name: Subir logs como artifact
+      - name: Upload logs as artifact
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: opencode-logs
           path: opencode-logs.tgz
           if-no-files-found: ignore
-          
