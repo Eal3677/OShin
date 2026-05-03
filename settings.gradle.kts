@@ -19,6 +19,9 @@ dependencyResolutionManagement {
         mavenCentral()
         google()
         maven("https://jitpack.io")
+        // Aliyun mirror hosts the Xposed API artifact reliably; the official `repo.xposed.info`
+        // is frequently unreachable from CI runners.
+        maven("https://maven.aliyun.com/repository/public")
         maven("https://repo.xposed.info") // Alternate Xposed Maven repository for the Xposed API dependency.
 
     }
